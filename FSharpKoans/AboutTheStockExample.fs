@@ -55,8 +55,21 @@ module ``about the stock example`` =
     // tests for yourself along the way. You can also try 
     // using the F# Interactive window to check your progress.
 
+    type Line = {
+        Date : string
+        Open : System.Double
+        Close : System.Double
+    }
+
     [<Koan>]
     let YouGotTheAnswerCorrect() =
-        let result =  __
+        
+        let result =  
+            stockData
+            |> List.tail
+            |> List.map (fun str -> str.Split([|','|]))
+            |> List.map (fun record -> { Date = record.[0]; Open = System.Double.Parse(record.[1]); Close = System.Double.Parse(record.[4]) })
+            |> List.maxBy (fun line -> abs (line.Open - line.Close))
+            |> (fun line -> line.Date)
         
         AssertEquality "2012-03-13" result
